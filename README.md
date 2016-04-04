@@ -28,9 +28,9 @@ The *sendMessage* method sends a message to the SeeControl platform.
 | values | table or array of tables | null | Optional : Data to be sent to SeeControl platform.  The keys in the table correspond to field values associated with the "Message" in the "Device Profile". |
 | callback | function | null | Optional : see note |
 
-** NOTE: ** If a callback function is supplied, the request will be made asynchronously and the callback will be executed upon completion. The callback takes two parameters, err (a string) and response data (a table).  If no error is encountered the err parameter will be null.  Alternatively, if no callback is supplied, the request will be made synchronously, and the method will return a Squirrel table with two fields: err and data.
+**NOTE:** If a callback function is supplied, the request will be made asynchronously and the callback will be executed upon completion. The callback takes two parameters, err (a string) and response data (a table).  If no error is encountered the err parameter will be null.  Alternatively, if no callback is supplied, the request will be made synchronously, and the method will return a Squirrel table with two fields: err and data.
 
-** Synchronous Example: **
+**Synchronous Example:**
 
 ```squirrel
 local agentID = split(http.agenturl(), "/").pop();
@@ -52,7 +52,7 @@ device.on("reading", function(reading) {
 });
 ```
 
-** Asynchronous Example: **
+**Asynchronous Example:**
 
 ```squirrel
 local agentID = split(http.agenturl(), "/").pop();
@@ -86,7 +86,7 @@ The SeeControl platform supports the sending of messages to the device. The devi
 | onErrorCallback | function | null | Optional : A function that will execute if the directive request is unsuccessful.  This function takes two parameters - err (a string) and response (a table or raw response data). | 
 
 
-** Example Code: **
+**Example Code:**
 
 ```squirrel
 local agentID = split(http.agenturl(), "/").pop();
