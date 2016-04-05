@@ -27,26 +27,23 @@ class AutodeskSeeControl {
         body.code <- message_code;
         if(values) body.values <- values;
         //add timestamp
-        body.time <- formatTimestamp(time());
+        body.time <- formatTimestamp();
 
         local request = http.post(url, headers, http.jsonencode(body));
-        if(cb != null) {
-            request.sendasync(function(res) {
-                local response = _processResponse(res);
+        request.sendasync(function(res) {
+            local response = _processResponse(res);
+            if(cb != null) {
                 cb(response.err, response.data);
-            }.bindenv(this));
-        } else {
-            return _processResponse(request.sendsync());
-        }
+            }
+        }.bindenv(this));
     }
 
     // @params : string - unique id for device,
     //           integer - time in seconds between checks for new messages
     //           function - callback function to run when have new message(s)
     //           optional - function - callback called if error encountered during request
-    //           (hidden) - boolean - if listener should loop (set to true, unless collecting messages)
     // @return : null
-    function openDirectiveListener(id, timer, onMsg, onErr=null, loop=true) {
+    function openDirectiveListener(id, timer, onMsg, onErr=null) {
         local body = {};
         local headers = { "Content-Type":"application/json" };
         local url = format("%s/json/directive", _base_url);
@@ -55,39 +52,36 @@ class AutodeskSeeControl {
         local request = http.post(url, headers, http.jsonencode(body));
 
         request.sendasync(function(res) {
+            
+            local loop = true;
             local response = _processResponse(res);
-            if(response.err) {
+            if (response.err) {
                 if(onErr) { onErr(response.err, response.data); }
             } else {
                 if (response.data.count > 0) {
                     onMsg(response.data);
                     // get all messages
                     if(response.data.count > 1) {
-                        openDirectiveListener(id, timer, onMsg, onErr, false);
+                        openDirectiveListener(id, timer, onMsg, onErr);
+                        loop = false;
                     }
                 }
             }
+            
+            if(loop) {
+                imp.wakeup(timer, function() {
+                    openDirectiveListener(id, timer, onMsg, onErr);
+                }.bindenv(this))
+            }
+            
         }.bindenv(this));
-
-        if(loop) {
-            imp.wakeup(timer, function() {
-                openDirectiveListener(id, timer, onMsg, onErr);
-            }.bindenv(this))
-        }
     }
 
     // @params : integer - epoch timestamp
     // @return : string - time formatted as 2015-12-03T00:54:51Z
-    function formatTimestamp(ts) {
-        local d = date(ts);
-        d.month = d.month + 1;
-        foreach(k, v in d) {
-            d[k] = v.tostring();
-            if(d[k].len() == 1) {
-                d[k] = "0" + d[k];
-            }
-        }
-        return format("%s-%s-%sT%s:%s:%sZ", d.year, d.month, d.day, d.hour, d.min, d.sec)
+    function formatTimestamp(ts = null) {
+        local d = ts ? date(ts) : date();
+        return format("%04d-%02d-%02dT%02d:%02d:%02dZ", d.year, d.month+1, d.day, d.hour, d.min, d.sec)
     }
 
     // Private Functions
