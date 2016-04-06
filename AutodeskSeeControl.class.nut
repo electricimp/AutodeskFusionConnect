@@ -16,8 +16,7 @@ class AutodeskSeeControl {
     //           string - unique message code set in "connect/device_profiles/message",
     //           optional - table or array of tables - data to be sent,
     //           optional - function - callback executed with response from autodesk
-    // @return : null if callback provided,
-    //           or table with response if no callback provided
+    // @return : null if callback provided
     function sendMessage(id, message_code, values=null, cb=null) {
         local body = {};
         local headers = { "Content-Type":"application/json" };
@@ -52,7 +51,7 @@ class AutodeskSeeControl {
         local request = http.post(url, headers, http.jsonencode(body));
 
         request.sendasync(function(res) {
-            
+
             local loop = true;
             local response = _processResponse(res);
             if (response.err) {
@@ -67,13 +66,13 @@ class AutodeskSeeControl {
                     }
                 }
             }
-            
+
             if(loop) {
                 imp.wakeup(timer, function() {
                     openDirectiveListener(id, timer, onMsg, onErr);
                 }.bindenv(this))
             }
-            
+
         }.bindenv(this));
     }
 
