@@ -76,7 +76,7 @@ class AutodeskSeeControl {
         }.bindenv(this));
     }
 
-    // @params : integer - epoch timestamp
+    // @params : optional - integer - epoch timestamp
     // @return : string - time formatted as 2015-12-03T00:54:51Z
     function formatTimestamp(ts = null) {
         local d = ts ? date(ts) : date();
