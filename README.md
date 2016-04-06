@@ -26,7 +26,7 @@ The *sendMessage* method sends a message to the SeeControl platform.
 | id | string | N/A | Required : Unique device identifier for the device submitting data |
 | message_code | string | N/A | Required : Unique message ‘code’ value that is used by device adapter to identify the correct message definition to be used when processing this message.  This value will be defined when you create a “Device Profile” message in your application. This is not the “Device Profile” code value.  It is the "Abstract message code" within the “Device Profile”. |
 | values | table or array of tables | null | Optional : Data to be sent to SeeControl platform.  The keys in the table correspond to field values associated with the "Message" in the "Device Profile". |
-| callback | function | null | Optional : see note |
+| callback | function | null | Optional : see comment below |
 
 If a callback function is supplied, the request will be made asynchronously and the callback will be executed upon completion. The callback takes two parameters, err (a string) and response data (a table).  If no error is encountered the err parameter will be null.
 
@@ -54,7 +54,7 @@ device.on("reading", function(reading) {
 
 #### openDirectiveListener(*id, timer, onMessageCallback, [onErrorCallback]*)
 
-The SeeControl platform supports the sending of messages to the device. The device is responsible for checking for available directive messages by periodically submitting directive requests to the server. Use the *openDirectiveListener* method to set up the directive request loop. When a directive request is made if message(s) are available the *onMessageCallback* will be triggered for each waiting message.
+The SeeControl platform supports the sending of messages to the device. The device is responsible for checking for available directive messages by periodically submitting requests to the server. Use the *openDirectiveListener* method to set up a directive request loop. When a directive request is made if message(s) are available the *onMessageCallback* will be triggered for each waiting message.
 
 | Parameter | Type | Default | Description |
 | ----------| ---- | ------- | ----------- |
@@ -68,7 +68,7 @@ The SeeControl platform supports the sending of messages to the device. The devi
 
 ```squirrel
 local agentID = split(http.agenturl(), "/").pop();
-local timer = 60; // check for messages every 60sec
+local msgInterval = 60; // check for messages every 60sec
 
 function onMsg(res) {
 	server.log(http.jsonencode(res));
@@ -90,7 +90,7 @@ function onErr(err, res) {
 	// possible response log - { "success": false, "message": "Missing 'target' value" }
 }
 
-adSeeControl.openDirectiveListener(agentID, timer, onMsg, onErr);
+adSeeControl.openDirectiveListener(agentID, msgInterval, onMsg, onErr);
 ```
 
 #### formatTimestamp(*[epoch_timestamp]*)
