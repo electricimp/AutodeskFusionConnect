@@ -25,8 +25,8 @@ This method sends a message to the SeeControl platform. It takes the following p
 
 | Parameter | Type | Default | Description |
 | ----------| ---- | ------- | ----------- |
-| *id* | String | N/A (Required) | Unique device identifier for the device submitting data. |
-| *messageCode* | String | N/A (Required) | Unique message ‘code’ value that is used by device adapter to identify the correct message definition to be used when processing this message. This value will be defined when you create a “Device Profile” message in your application. This is not the “Device Profile” code value; it is the “Abstract message code” within the “Device Profile”. |
+| *id* | String | None (Required) | Unique device identifier for the device submitting data. |
+| *messageCode* | String | None (Required) | Unique message ‘code’ value that is used by device adapter to identify the correct message definition to be used when processing this message. This value will be defined when you create a “Device Profile” message in your application. This is not the “Device Profile” code value; it is the “Abstract message code” within the “Device Profile”. |
 | *values* | Table or array of tables | null | Data to be sent to SeeControl platform. The keys in the table correspond to field values associated with the “Message” in the “Device Profile”. |
 | *callback* | Function | null | See below. |
 
@@ -61,9 +61,9 @@ The SeeControl platform supports the sending of messages to the device. The devi
 
 | Parameter | Type | Default | Description |
 | ----------| ---- | ------- | ----------- |
-| *id* | String | N/A (Required) | Unique device identifier for the device submitting data. |
-| *timer* | Integer | N/A (Required) | The number of seconds to wait between directive requests. |
-| *onMessageCallback* | Function | N/A (Required) | A function that will execute for each message. This function takes one parameter: a response table. See example below for table details. |
+| *id* | String | None (Required) | Unique device identifier for the device submitting data. |
+| *timer* | Integer | None (Required) | The number of seconds to wait between directive requests. |
+| *onMessageCallback* | Function | None (Required) | A function that will execute for each message. This function takes one parameter: a response table. See example below for table details. |
 | *onErrorCallback* | Function | null | A function that will execute if the directive request is unsuccessful. This function takes two parameters: *err* (a string) and *response* (a table or raw response data). |
 
 **Example Code:**
