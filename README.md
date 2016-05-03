@@ -2,6 +2,8 @@
 
 This library integrates with [Autodesk’s SeeControl platform](https://cloudx.seecontrol.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
+This example is to illustrate access to Autodesk SeeControl for development purposes. For real-world deployments customers will use updated connection parameters as provided by Autodesk (for example, HTTPS to deployment host).
+
 **To add this library to your project, add** `#require "AutodeskSeeControl.class.nut:1.0.0"` **to the top of your agent code**
 
 ## Class Usage
