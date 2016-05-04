@@ -1,15 +1,17 @@
 class AutodeskSeeControl {
 
-    static version = [1, 0, 0];
+    static version = [1, 0, 1];
 
     _base_url = null;
 
     // @params : string - hostname for your account provided by autodesk,
-    //           string or integer - port for your account provided by autodessk,
+    //           string or integer - port for your account provided by autodesk,
+    //           optional - boolean - if https protocol should be used in base url
     // @return : null
-    constructor(hostname, tcp_port) {
-        if(typeof tcp_port == "integer") tcp_port = tcp_port.tostring();
-        _base_url = format("http://%s:%s", hostname, tcp_port);
+    constructor(hostname, tcp_port, https = false) {
+        local protocol = https ? "https" : "http";
+        if (typeof tcp_port == "integer") tcp_port = tcp_port.tostring();
+        _base_url = format("%s://%s:%s", protocol, hostname, tcp_port);
     }
 
     // @params : string - unique id for device,
