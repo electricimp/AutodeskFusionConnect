@@ -2,15 +2,15 @@
 
 This library integrates with [Autodesk’s SeeControl platform](https://cloudx.seecontrol.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
-This example is to illustrate access to Autodesk SeeControl for development purposes. For real-world deployments customers will use updated connection parameters as provided by Autodesk (for example, HTTPS to deployment host).
-
-**To add this library to your project, add** `#require "AutodeskSeeControl.class.nut:1.0.0"` **to the top of your agent code**
+**To add this library to your project, add** `#require "AutodeskSeeControl.class.nut:1.0.1"` **to the top of your agent code**
 
 ## Class Usage
 
-### Constructor: AutodeskSeeControl(*hostname, port*)
+### Constructor: AutodeskSeeControl(*hostname, port[, https]*)
 
 The AutodeskSeeControl constructor takes two required parameters: the base *hostname* and *port* used for communication with SeeControl’s platform. These are provided to you by Autodesk.
+
+The constructor also takes one optional boolean parameter, *https*. By default this is set to `false`. If your connection to SeeControl requires the HTTPS protocol, set this parameter to `true`.
 
 ```squirrel
 local hostname = "<YOUR_HOSTNAME_HERE>";
