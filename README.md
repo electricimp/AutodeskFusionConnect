@@ -12,7 +12,7 @@ This example is to illustrate access to Autodesk SeeControl for development purp
 
 The AutodeskSeeControl constructor takes two required parameters: the base *hostname* and *port* used for communication with SeeControl’s platform. These are provided to you by Autodesk.
 
-The constructor also takes one optional boolean parameter *https*.  By default this is set to false.  If your connection to SeeControl requires *https* protocol, set this parameter to true.
+The constructor also takes one optional boolean parameter, *https*. By default this is set to `false`. If your connection to SeeControl requires the HTTPS protocol, set this parameter to `true`.
 
 ```squirrel
 local hostname = "<YOUR_HOSTNAME_HERE>";
