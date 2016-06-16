@@ -1,4 +1,4 @@
-class AutodeskSeeControl {
+class AutodeskFusionConnect {
 
     static version = [1, 0, 1];
 
