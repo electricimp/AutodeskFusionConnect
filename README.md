@@ -2,7 +2,7 @@
 
 This library integrates with [Autodesk’s Fusion Connect](http://autodeskfusionconnect.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
-**To add this library to your project, add** `#require "AutodeskFusionConnect.class.nut:1.0.1"` **to the top of your agent code**
+**To add this library to your project, add** `#require "AutodeskFusionConnect.class.nut:1.0.0"` **to the top of your agent code**
 
 ## Class Usage
 
@@ -107,4 +107,4 @@ local timestamp = fusionConnect.formatTimestamp();
 
 ## License
 
-The Autodesk Fusion Contect class is licensed under [MIT License](https://github.com/electricimp/AutodeskFusion Contect/tree/master/LICENSE).
+The Autodesk Fusion Contect library is licensed under [MIT License](https://github.com/electricimp/AutodeskFusion Contect/tree/master/LICENSE).
