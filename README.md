@@ -57,7 +57,7 @@ device.on("reading", function(reading) {
 });
 ```
 
-#### openDirectiveListener(*id, timer, onMessageCallback[, onErrorCallback]*)
+### openDirectiveListener(*id, timer, onMessageCallback[, onErrorCallback]*)
 
 The Fusion Connect platform supports the sending of messages to the device. The device is responsible for checking for available directive messages by periodically submitting requests to the server. Use the *openDirectiveListener()* method to set up a directive request loop. When a directive request is made, if one or more messages are available then the *onMessageCallback* will be triggered for each waiting message.
 
