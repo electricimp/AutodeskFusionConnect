@@ -1,4 +1,4 @@
-# Autodesk Fusion Contect
+# Autodesk Fusion Connect
 
 This library allows your agent to support [Autodesk’s Fusion Connect](http://autodeskfusionconnect.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
@@ -109,4 +109,4 @@ local timestamp = fusionConnect.formatTimestamp();
 
 ## License
 
-The Autodesk Fusion Contect library is licensed under [MIT License](https://github.com/electricimp/AutodeskFusion Contect/tree/master/LICENSE).
+The Autodesk Fusion Connect library is licensed under [MIT License](https://github.com/electricimp/AutodeskFusion Contect/tree/master/LICENSE).
