@@ -95,7 +95,7 @@ class AutodeskFusionConnect {
         local data = null;
 
         if(res.statuscode != 200) {
-            err = format("Error: HTTP request unsuccessful status code - %s", res.statuscode);
+            err = format("Error: HTTP request unsuccessful status code - %i", res.statuscode);
             data = res;
         } else {
             try {
