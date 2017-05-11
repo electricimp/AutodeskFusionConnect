@@ -1,6 +1,6 @@
 class AutodeskFusionConnect {
 
-    static version = [1, 0, 0];
+    static VERSION = "2.0.0";
 
     _base_url = null;
 
