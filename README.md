@@ -2,7 +2,7 @@
 
 This library allows your agent to support [Autodesk’s Fusion Connect](http://autodeskfusionconnect.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
-**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib:2.0.0"` **to the top of your agent code**
+**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib.nut:2.0.0"` **to the top of your agent code**
 
 ## Class Usage
 
@@ -13,7 +13,7 @@ The AutodeskFusionConnect constructor takes two required parameters: the base *h
 The constructor also takes one optional boolean parameter, *https*. By default this is set to `false`. If your connection to Fusion Connect requires the HTTPS protocol, set this parameter to `true`.
 
 ```squirrel
-#require "AutodeskFusionConnect.agent.lib:2.0.0"
+#require "AutodeskFusionConnect.agent.lib.nut:2.0.0"
 
 local hostname = "<YOUR_HOSTNAME>";
 local port = <YOUR_TCP_PORT>;
