@@ -37,7 +37,7 @@ The payload table contains the following entries:
 | Entry | Type | Default | Description |
 | ----------| ---- | ------- | ----------- |
 | *value* | Table | None (Required) | The table with valued being sent to Autodesk. The keys in the table correspond to field values associated with the “Message” in the “Device Profile”. |
-| *time* | String | None (Required) | [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) formatted event time value. |
+| *time* | String | None (Required) | [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) formatted event time value. Must be formatted with the `formatTimestamp` call. |
 | *location* | Table | null | A optional table with `latitude` and `longitude` entries. |
 
 &nbsp;<br>If a callback function is supplied to the `sendMessage` method, the

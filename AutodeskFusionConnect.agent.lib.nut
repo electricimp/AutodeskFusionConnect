@@ -52,16 +52,10 @@ class AutodeskFusionConnect {
 
         body.target <- id;
         body.code <- messageCode;
+        body.time <- "time" in payload ? payload["time"] : formatTimestamp();
 
-        if ("values" in payload) {
-            body.values <- payload["values"];
-        }
-        if ("time" in payload) {
-            body.time <- payload["time"];
-        }
-        if ("location" in payload) {
-            body.location <- payload["location"];
-        }
+        if ("values"   in payload) body.values   <- payload["values"];
+        if ("location" in payload) body.location <- payload["location"];
 
         local request = http.post(url, headers, http.jsonencode(body));
         request.sendasync(function(res) {
