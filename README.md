@@ -2,7 +2,7 @@
 
 This library allows your agent to support [Autodesk’s Fusion Connect](http://autodeskfusionconnect.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
-**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib:3.0.0"` **to the top of your agent code**
+**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib.nut:3.0.0"` **to the top of your agent code**
 
 ## Class Usage
 
@@ -13,7 +13,7 @@ connection string for your account provided by Autodesk.
 The string includes the protocol (http or https), host name and port.
 
 ```squirrel
-#require "AutodeskFusionConnect.agent.lib:3.0.0"
+#require "AutodeskFusionConnect.agent.lib.nut:3.0.0"
 
 const CONNECTION_STRING = "https://comm-d.dev.fusionconnect.autodesk.com:49181";
 fusionConnect <- AutodeskFusionConnect(CONNECTION_STRING);
