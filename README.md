@@ -2,28 +2,26 @@
 
 This library allows your agent to support [Autodesk’s Fusion Connect](http://autodeskfusionconnect.com/), an enterprise IoT cloud service that helps manufacturers to connect, analyze, and manage their products.
 
-**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib:2.0.0"` **to the top of your agent code**
+**To add this library to your project, add** `#require "AutodeskFusionConnect.agent.lib:3.0.0"` **to the top of your agent code**
 
 ## Class Usage
 
-### Constructor: AutodeskFusionConnect(*hostname, port[, https]*)
+### Constructor: AutodeskFusionConnect(connectionString)
 
-The AutodeskFusionConnect constructor takes two required parameters: the base *hostname* and *port* used for communication with Fusion Connect’s platform. These are provided to you by Autodesk.
-
-The constructor also takes one optional boolean parameter, *https*. By default this is set to `false`. If your connection to Fusion Connect requires the HTTPS protocol, set this parameter to `true`.
+The AutodeskFusionConnect constructor takes one parameter: *connectionString* -
+connection string for your account provided by Autodesk.
+The string includes the protocol (http or https), host name and port.
 
 ```squirrel
-#require "AutodeskFusionConnect.agent.lib:2.0.0"
+#require "AutodeskFusionConnect.agent.lib:3.0.0"
 
-local hostname = "<YOUR_HOSTNAME>";
-local port = <YOUR_TCP_PORT>;
-
-fusionConnect <- AutodeskFusionConnect(hostname, port);
+const CONNECTION_STRING = "https://comm-d.dev.fusionconnect.autodesk.com:49181";
+fusionConnect <- AutodeskFusionConnect(CONNECTION_STRING);
 ```
 
 ## Class Methods
 
-### sendMessage(*id, messageCode[, values][, callback]*)
+### sendMessage(*id, messageCode, payload[, callback]*)
 
 This method sends a message to the Fusion Connect platform. It takes the following parameters:
 
@@ -31,10 +29,22 @@ This method sends a message to the Fusion Connect platform. It takes the followi
 | ----------| ---- | ------- | ----------- |
 | *id* | String | None (Required) | Unique device identifier for the device submitting data. |
 | *messageCode* | String | None (Required) | Unique message ‘code’ value that is used by device adapter to identify the correct message definition to be used when processing this message. This value will be defined when you create a “Device Profile” message in your application. This is not the “Device Profile” code value; it is the “Abstract message code” within the “Device Profile”. |
-| *values* | Table or array of tables | null | Data to be sent to Fusion Connect platform. The keys in the table correspond to field values associated with the “Message” in the “Device Profile”. |
+| *payload* | Table | None (Required) | The payload table to be sent to the Fusion Connect platform. Please see the table below for more details. |
 | *callback* | Function | null | See below. |
 
-&nbsp;<br>If a callback function is supplied, the request will be made asynchronously and the callback will be executed upon completion. The callback takes two parameters, *err* (an error message string) and *data* (a table of response data). If no error is encountered the *err* parameter will be `null`.
+The payload table contains the following entries:
+
+| Entry | Type | Default | Description |
+| ----------| ---- | ------- | ----------- |
+| *value* | Table | None (Required) | The table with valued being sent to Autodesk. The keys in the table correspond to field values associated with the “Message” in the “Device Profile”. |
+| *time* | String | None (Required) | [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) formatted event time value. |
+| *location* | Table | null | A optional table with `latitude` and `longitude` entries. |
+
+&nbsp;<br>If a callback function is supplied to the `sendMessage` method, the
+request will be made asynchronously and the callback will be executed upon
+completion. The callback takes two parameters, *err* (an error message string)
+and *data* (a table of response data). If no error is encountered the *err*
+parameter will be `null`.
 
 #### Example ####
 
@@ -101,7 +111,9 @@ fusionConnect.openDirectiveListener(agentID, msgInterval, onMsg, onErr);
 
 ### formatTimestamp(*[epochTimestamp]*)
 
-The Autodesk Fusion Connect platform uses XML 8601-formatted timestamps. If no parameter is passed in, this method will return a format recognized by the Autodesk Fusion Connect platform. If an epoch timestamp is passed in, this method will convert it into the preferred format.
+The Autodesk Fusion Connect platform uses [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) formatted timestamps. 
+If no parameter is passed in, this method will return ISO 8601-formatted current time. 
+If an epoch timestamp is passed in, this method will convert it into the preferred format.
 
 ```squirrel
 local timestamp = fusionConnect.formatTimestamp();
