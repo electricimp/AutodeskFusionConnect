@@ -121,4 +121,4 @@ local timestamp = fusionConnect.formatTimestamp();
 
 ## License
 
-The Autodesk Fusion Connect library is licensed under [MIT License](https://github.com/electricimp/AutodeskFusion Contect/tree/master/LICENSE).
+The Autodesk Fusion Connect library is licensed under [MIT License](LICENSE).
