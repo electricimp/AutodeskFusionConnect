@@ -24,40 +24,43 @@
 
 class AutodeskFusionConnect {
 
-    static VERSION = "2.0.0";
+    static VERSION = "3.0.0";
 
-    _base_url = null;
+    _connectionString = null;
 
-    // @params : string - hostname for your account provided by autodesk,
-    //           string or integer - port for your account provided by autodesk,
-    //           optional - boolean - if https protocol should be used in base url
+    // @params : connectionString (string) - connection string for your account provided by Autodesk.
+    //                                       the string includes the protocol (http or https), host name and port
     // @return : null
-    constructor(hostname, tcp_port, https = false) {
-        local protocol = https ? "https" : "http";
-        if (typeof tcp_port == "integer") tcp_port = tcp_port.tostring();
-        _base_url = format("%s://%s:%s", protocol, hostname, tcp_port);
+    constructor(connectionString) {
+        _connectionString = connectionString;
     }
 
-    // @params : string - unique id for device,
-    //           string - unique message code set in "connect/device_profiles/message",
-    //           optional - table or array of tables - data to be sent,
-    //           optional - function - callback executed with response from autodesk
-    // @return : null if callback provided
-    function sendMessage(id, message_code, values=null, cb=null) {
+    // @params : id          (string)   - unique id for device,
+    //           messageCode (string)   - unique message code set in "connect/device_profiles/message",
+    //           payload     (table)    - table or array of tables - data to be sent,
+    //                                      Entries:
+    //                                          "values"    - the values to be sent
+    //                                          "time"      - option event timestamp. Must be formatted with
+    //                                                        the `formatTimestamp` call
+    //                                          "location"  - optional table with `lat`, `lon`, `alt` float values
+    //           cb          (function) - optional callback executed with response from autodesk
+    // @return : null
+    function sendMessage(id, messageCode, payload, cb=null) {
         local body = {};
         local headers = { "Content-Type":"application/json" };
-        local url = format("%s/json", _base_url);
+        local url = format("%s/json", _connectionString);
 
         body.target <- id;
-        body.code <- message_code;
-        if(values) body.values <- values;
-        //add timestamp
-        body.time <- formatTimestamp();
+        body.code <- messageCode;
+        body.time <- "time" in payload ? payload["time"] : formatTimestamp();
+
+        if ("values"   in payload) body.values   <- payload["values"];
+        if ("location" in payload) body.location <- payload["location"];
 
         local request = http.post(url, headers, http.jsonencode(body));
         request.sendasync(function(res) {
             local response = _processResponse(res);
-            if(cb != null) {
+            if (cb != null) {
                 cb(response.err, response.data);
             }
         }.bindenv(this));
@@ -71,7 +74,7 @@ class AutodeskFusionConnect {
     function openDirectiveListener(id, timer, onMsg, onErr=null) {
         local body = {};
         local headers = { "Content-Type":"application/json" };
-        local url = format("%s/json/directive", _base_url);
+        local url = format("%s/json/directive", _connectionString);
         body.target <- id;
 
         local request = http.post(url, headers, http.jsonencode(body));
@@ -103,10 +106,12 @@ class AutodeskFusionConnect {
     }
 
     // @params : optional - integer - epoch timestamp
-    // @return : string - time formatted as 2015-12-03T00:54:51Z
+    // @return : string - time formatted as 2015-12-03T00:54:51.332Z
     function formatTimestamp(ts = null) {
+
         local d = ts ? date(ts) : date();
-        return format("%04d-%02d-%02dT%02d:%02d:%02dZ", d.year, d.month+1, d.day, d.hour, d.min, d.sec)
+        return format("%04d-%02d-%02dT%02d:%02d:%02d.%03dZ",
+                      d.year, d.month+1, d.day, d.hour, d.min, d.sec, d.usec/1000);
     }
 
     // Private Functions
